@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   font-family: Oswald, Arial, sans-serif;
+  text-decoration-line: none;
 }
 
 html, body {
@@ -29,7 +30,8 @@ main {
 
 .weather-data-container {
   margin: 50px auto 0px auto;
-  max-width: 1010px;
+  width: 1000px;
+  min-width: 1000px;
 }
 
 .current-weather-container {
@@ -44,11 +46,11 @@ main {
   display: inline-block;
   vertical-align: top;
   min-width: 750px;
-  background-color: #f6f6f6;
+  /*background-color: #f6f6f6;*/
 }
 
 .current-weather-title {
-  font-size: 24px;
+  font-size: 23px;
   vertical-align: top;
 }
 
@@ -60,9 +62,12 @@ main {
   margin: 0 0 13px 0;
 }
 
-table, tr, td {
+.current-weather-container table {
   font-size: 14px;
   border-collapse: collapse;
+}
+
+.current-weather-container td {
   padding : 5px;
   border: 1px solid #d5d5d5;
 }
@@ -72,13 +77,18 @@ table, tr, td {
 }
 
 .fore-weather-title {
-  font-size: 24px;
+  font-size: 23px;
   color: #d26c22;
 }
 
 .fore-weather-subtitle {
   font-size: 18px;
   color: #646464;
+}
+
+.fore-tag-list {
+  padding: 0px;
+  margin-bottom: 26px;
 }
 
 .forecast-tag {
@@ -97,4 +107,49 @@ table, tr, td {
 .forecast-tag:active {
   color: #d26c22;
   border-bottom: 1px solid #d26c22;
+}
+
+.forecast-weather-container table {
+  color: #646464;
+  font-size: 14px;
+  width: 750px;
+  border-collapse: collapse;
+}
+
+.fore-hourly-info-td {
+  padding: 0px 15px;
+  vertical-align: middle;
+  border-bottom: 1px solid #d5d5d5;
+}
+
+.forecast-weather-container img {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.width-200px {
+  width: 40%;
+}
+
+.forecast-temp {
+  font-size: 11px;
+  color: white;
+  padding: 3px 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+  background-color: #999;
+}
+
+.fore-hourly-date-td {
+  border: 1px solid #d5d5d5;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+}
+
+.tag-content-show {
+  display: block;
+}
+
+.tag-content-hidden {
+  display: none;
 }
