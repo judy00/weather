@@ -1375,6 +1375,7 @@ const foreWeatherSubtitle = document.createElement('h2')
 const foreWeatherMainDOM = document.createElement('section')
 const foreWeatherHourlyDOM = document.createElement('section')
 const forWeatherTable = document.createElement('table')
+const foreWeatherMainChartContainer = document.createElement('div')
 
 curDataMap.forEach((item, index) => {
   const col = document.createElement('tr')
@@ -1399,7 +1400,7 @@ forecastTags.forEach(item => {
   tagLink.href = item.url
   tagItem.appendChild(tagLink)
   foreTagList.appendChild(tagItem)
-  tagLink.addEventListener('click', showTagContent)
+  tagLink.addEventListener('click', function(){showTagContent(item.text)})
 })
 
 generateHourlyDateRow(forecastWeatherAPIData.list[0].dt)
@@ -1421,7 +1422,7 @@ forecastWeatherAPIData.list.forEach((item, index, array) => {
   foreTemp.textContent = parseFloat(item.main.temp - 273.15, 10).toFixed(1) + ' °C'
   foreDescrip.textContent = item.weather[0].description
   forWindCloudHpa.textContent = item.wind.speed + ', m/s   ' + 'clouds: ' + item.clouds.all + '%,  ' + item.main.pressure + ' hpa'
-  rowTimeAndIcon.className = 'fore-hourly-info-td width-40%'
+  rowTimeAndIcon.className = 'fore-hourly-info-td'
   rowHourlyInfo.className = 'fore-hourly-info-td'
   foreTemp.className = 'forecast-temp'
 
@@ -1476,18 +1477,19 @@ foreWeatherSubtitle.textContent = 'Weather and forecasts in' + currentWeatherAPI
 foreWeatherSubtitle.className = 'fore-weather-subtitle'
 foreWeatherMainDOM.className = 'Main tag-content tag-content-show'
 foreWeatherHourlyDOM.className = 'Hourly tag-content tag-content-hidden'
-foreWeatherMainDOM.textContent = 'MainMainMain'
+foreWeatherMainChartContainer.className = 'fore-main-chart-container'
+foreWeatherMainChartContainer.id = 'container'
+// foreWeatherMainChartContainer.textContent = 'MaaainMainMain'
 
-function showTagContent (eventObject) {
-  const selectedTagName = eventObject.target.textContent
-  const allTagSection = document.getElementsByClassName('tag-content')
+function showTagContent (text) {
+  const allTagSection = document.querySelectorAll('.tag-content')
 
-  for (let i = 0; i < allTagSection.length; i++) {
-    allTagSection[i].className = allTagSection[i].className.replace('tag-content-show', 'tag-content-hidden')
-  }
+  allTagSection.forEach((item, index) => {
+    item.className = item.className.replace('tag-content-show', 'tag-content-hidden')
+  })
 
-  const a = document.getElementsByClassName(selectedTagName)
-  a[0].className = a[0].className.replace('tag-content-hidden', 'tag-content-show')
+  const selectedSection = document.querySelector("." + text)
+  selectedSection.className = selectedSection.className.replace('tag-content-hidden', 'tag-content-show')
 }
 
 currentWeatherDOM.appendChild(curWeatherTitle)
@@ -1498,8 +1500,54 @@ currentWeatherDOM.appendChild(curWeatherTime)
 currentWeatherDOM.appendChild(curWeatherTable)
 
 foreWeatherHourlyDOM.appendChild(forWeatherTable)
+foreWeatherMainDOM.appendChild(foreWeatherMainChartContainer)
 foreWeatherDOM.appendChild(foreWeatherTitle)
 foreWeatherDOM.appendChild(foreTagList)
 foreWeatherDOM.appendChild(foreWeatherSubtitle)
 foreWeatherDOM.appendChild(foreWeatherHourlyDOM)
 foreWeatherDOM.appendChild(foreWeatherMainDOM)
+
+Highcharts.chart('container', {
+  chart: {
+    renderTo: 'container',
+    type: 'column'
+  },
+  title: {
+    text: 'Restaurants Complaints'
+  },
+  xAxis: {
+    categories: ['time1', 'time2', 'time3', 'time4', 'time5', 'time6', 'time7', 'time8']
+  },
+  yAxis: [{
+    title: {
+      text: ''
+    },
+    opposite: true,
+    labels: {
+      format: "{value} °C"
+    }
+  }, {
+    title: {
+      text: ''
+    },
+    opposite: true,
+    labels: {
+      format: "{value} mm"
+    }
+  }],
+  series: [{
+    type: 'spline',
+    yAxis: 0,
+    name: 'Temperature',
+    zIndex: 10,
+    color : "#0000ff",
+    data: [14, 15.6, 15.1, 16.2, 17.3, 12.4, 15, 10]
+  }, {
+    type: 'column',
+    yAxis: 1,
+    name: 'Precipitation',
+    zIndex: 2,
+    color: "#a0a0a0",
+    data: [0.4, 0.2, 1, 2, 3, 1, 1, 0]
+  }]
+})
