@@ -299,6 +299,7 @@ function generateCurrentData () {
     foreMainTemp.textContent = parseFloat((forecastWeatherAPIData.list[i].main.temp - 273.15).toFixed(1), 10) + ' °C'
     foreMainWind.textContent = forecastWeatherAPIData.list[i].wind.speed + ' m/s'
     foreMainHpa.textContent = forecastWeatherAPIData.list[i].main.pressure
+    foreMainTemp.className = 'fore-main-temp'
     foreMainHpa.className = 'color-light-gray'
     foreWeatherMainInfo.className = 'fore-main-icon-section inline-block'
     foreWeatherMainInfo.appendChild(foreMainImg)
@@ -337,8 +338,52 @@ function getCityName () {
   getWeatherData(inputCityName)
 }
 
+function showTempSwitchBtn () {
+  const switchBtn = document.querySelector('.switch-temp-btn')
+   if (switchBtn.style.display === "none") {
+     switchBtn.style.display = "block"
+   }
+}
+
+function tempSwitch() {
+  const foreTempList = document.querySelectorAll('.forecast-temp')
+  const foreMainTempList = document.querySelectorAll('.fore-main-temp')
+
+  if (curWeatherTemp.textContent.indexOf('°C') > 0) {
+    curWeatherTemp.textContent = parseInt(currentWeatherAPIData.main.temp * 9 / 5 - 459.67, 10) + '°F'
+    foreTempList.forEach((item, index) => {
+      item.textContent = parseFloat(forecastWeatherAPIData.list[index].main.temp * 9 / 5 - 459.67, 10).toFixed(1) + ' °F'
+    })
+    chartObjectData.series[1].data = []
+    chartObjectData.yAxis[0].labels.formatter = ''
+    chartObjectData.yAxis[0].labels.formatter = function () {
+      return Math.round(this.value) + '°F'
+    }
+    for (let i = 0; i < 10; i++) {
+      chartObjectData.series[1].data.push(parseFloat((forecastWeatherAPIData.list[i].main.temp * 9 / 5 - 459.67).toFixed(1), 10))
+      foreMainTempList[i].textContent = parseFloat((forecastWeatherAPIData.list[i].main.temp  * 9 / 5 - 459.67).toFixed(1), 10) + ' °F'
+    }
+  } else {
+    curWeatherTemp.textContent = parseInt(currentWeatherAPIData.main.temp - 273.15, 10) + '°C'
+    foreTempList.forEach((item, index) => {
+      item.textContent = parseFloat(forecastWeatherAPIData.list[index].main.temp - 273.15, 10).toFixed(1) + ' °C'
+    })
+    chartObjectData.series[1].data = []
+    chartObjectData.yAxis[0].labels.formatter = ''
+    chartObjectData.yAxis[0].labels.formatter = function () {
+      return Math.round(this.value) + '°C'
+    }
+    for (let i = 0; i < 10; i++) {
+      chartObjectData.series[1].data.push(parseFloat((forecastWeatherAPIData.list[i].main.temp - 273.15).toFixed(1), 10))
+      foreMainTempList[i].textContent = parseFloat((forecastWeatherAPIData.list[i].main.temp - 273.15).toFixed(1), 10) + ' °C'
+    }
+  }
+  buildMainChart ()
+}
+
 function onload () {
   searchCityBtnDOM.addEventListener('click', getCityName)
+  searchCityBtnDOM.addEventListener('click', showTempSwitchBtn)
 }
 
 window.addEventListener('load', onload)
