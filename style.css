@@ -31,7 +31,7 @@ main {
 .weather-data-container {
   margin: 50px auto 0px auto;
   width: 1000px;
-  min-width: 1000px;
+  min-width: 950px;
 }
 
 .current-weather-container {
@@ -45,7 +45,7 @@ main {
 .forecast-weather-container {
   display: inline-block;
   vertical-align: top;
-  min-width: 750px;
+  min-width: 700px;
   /*background-color: #f6f6f6;*/
 }
 
@@ -152,6 +152,24 @@ main {
 
 .fore-main-chart-container {
   max-width: 100%;
-  height: 400px;
-  margin: 1em auto;
+  height: 250px;
+}
+
+.fore-main-info-container {
+  margin-left: 12px;
+  /*background-color: pink;*/
+}
+
+.fore-main-icon-section {
+  margin: 0px 2.5px;
+}
+
+.fore-main-icon-section p {
+  text-align: center;
+  font-size: 11px;
+  margin: 2px 0px;
+}
+
+.color-light-gray {
+  color: #808080;
 }
