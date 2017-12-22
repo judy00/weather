@@ -324,16 +324,6 @@ function generateCurrentData () {
   foreWeatherMainDOM.appendChild(foreWeatherMainInfoContainer)
 }
 
-// currentWeatherDOM.appendChild(curWeatherTitle)
-// currentWeatherDOM.appendChild(curWeatherImg)
-// currentWeatherDOM.appendChild(curWeatherTemp)
-// currentWeatherDOM.appendChild(curWeatherDescrip)
-// currentWeatherDOM.appendChild(curWeatherTime)
-// currentWeatherDOM.appendChild(curWeatherTable)
-// foreWeatherHourlyDOM.appendChild(foreWeatherTable)
-// foreWeatherMainDOM.appendChild(foreWeatherMainChartContainer)
-// foreWeatherMainDOM.appendChild(foreWeatherMainInfoContainer)
-
 foreWeatherDOM.appendChild(foreWeatherTitle)
 foreWeatherDOM.appendChild(foreTagList)
 foreWeatherDOM.appendChild(foreWeatherSubtitle)
@@ -392,7 +382,6 @@ function tempSwitch () {
       foreMainTempList[i].textContent = parseFloat((forecastWeatherAPIData.list[i].main.temp - 273.15).toFixed(1), 10) + ' °C'
     }
   }
-  buildMainChart()
 }
 
 function removeElement () {

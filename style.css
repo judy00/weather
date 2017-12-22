@@ -39,14 +39,12 @@ main {
   vertical-align: top;
   min-width: 250px;
   color: #646464;
-  /*background-color: #f6f6f6;*/
 }
 
 .forecast-weather-container {
   display: inline-block;
   vertical-align: top;
   min-width: 700px;
-  /*background-color: #f6f6f6;*/
 }
 
 .current-weather-title {
@@ -157,7 +155,6 @@ main {
 
 .fore-main-info-container {
   margin-left: 12px;
-  /*background-color: pink;*/
 }
 
 .fore-main-icon-section {
