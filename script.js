@@ -13,8 +13,8 @@ function getWeatherData (inputCityName) {
     return axios.get(url) // eslint-disable-line
   }
 
-  axios.all([getCurrentWeatherAPIData(), getforecastWeatherAPIData()])
-    .then(axios.spread(function (acct, perms) {
+  axios.all([getCurrentWeatherAPIData(), getforecastWeatherAPIData()]) // eslint-disable-line
+    .then(axios.spread(function (acct, perms) { // eslint-disable-line
       currentWeatherAPIData = acct.data
       forecastWeatherAPIData = perms.data
       generateCurrentData()
@@ -34,7 +34,6 @@ const forecastTags = [
   }
 ]
 
-const weatherDataContainerDOM = document.querySelector('.weather-data-container')
 const currentWeatherDOM = document.querySelector('.current-weather-container')
 const foreWeatherDOM = document.querySelector('.forecast-weather-container')
 const inputCityNameDOM = document.querySelector('.input-city-name')
@@ -51,11 +50,13 @@ const foreTagList = document.createElement('ul')
 const foreWeatherSubtitle = document.createElement('h2')
 const foreWeatherMainDOM = document.createElement('section')
 const foreWeatherHourlyDOM = document.createElement('section')
-const forWeatherTable = document.createElement('table')
+const foreWeatherTable = document.createElement('table')
 const foreWeatherMainChartContainer = document.createElement('section')
 const foreWeatherMainInfoContainer = document.createElement('section')
 
 function generateCurrentData () {
+  removeElement()
+
   const curDataMap = [
     ['Wind', currentWeatherAPIData.wind.speed + 'm/s,' + currentWeatherAPIData.wind.deg],
     ['Cloudiness', 'Broken clouds'],
@@ -123,7 +124,7 @@ function generateCurrentData () {
     rowHourlyInfo.appendChild(forWindCloudHpa)
     colforecast.appendChild(rowTimeAndIcon)
     colforecast.appendChild(rowHourlyInfo)
-    forWeatherTable.appendChild(colforecast)
+    foreWeatherTable.appendChild(colforecast)
 
     if (index < forecastWeatherAPIData.list.length - 1) {
       const currItemDate = new Date(parseInt(array[index].dt + '000')).toString().substr(8, 3)
@@ -135,18 +136,6 @@ function generateCurrentData () {
       }
     }
   })
-
-  function generateHourlyDateRow (date) {
-    const colDate = document.createElement('tr')
-    const rowDate = document.createElement('td')
-    const dateWord = document.createElement('strong')
-    dateWord.textContent = new Date(parseInt(date + '000')).toString().substr(0, 15) + ' Today'
-    rowDate.className = 'fore-hourly-date-td'
-    rowDate.colSpan = '2'
-    rowDate.appendChild(dateWord)
-    colDate.appendChild(rowDate)
-    forWeatherTable.appendChild(colDate)
-  }
 
   curWeatherTitle.className = 'current-weather-title'
   curWeatherTitle.textContent = 'Weather in ' + currentWeatherAPIData.name + ',' + currentWeatherAPIData.sys.country
@@ -169,6 +158,22 @@ function generateCurrentData () {
   foreWeatherMainChartContainer.className = 'fore-main-chart-container'
   foreWeatherMainChartContainer.id = 'container'
   foreWeatherMainInfoContainer.className = 'fore-main-info-container'
+
+  function generateHourlyDateRow (date) {
+    const colDate = document.createElement('tr')
+    const rowDate = document.createElement('td')
+    const dateWord = document.createElement('strong')
+    if (date === forecastWeatherAPIData.list[0].dt) {
+      dateWord.textContent = new Date(parseInt(date + '000')).toString().substr(0, 15) + ' Today'
+    } else {
+      dateWord.textContent = new Date(parseInt(date + '000')).toString().substr(0, 15)
+    }
+    rowDate.className = 'fore-hourly-date-td'
+    rowDate.colSpan = '2'
+    rowDate.appendChild(dateWord)
+    colDate.appendChild(rowDate)
+    foreWeatherTable.appendChild(colDate)
+  }
 
   function showTagContent (text) {
     const allTagSection = document.querySelectorAll('.tag-content')
@@ -308,17 +313,26 @@ function generateCurrentData () {
     foreWeatherMainInfo.appendChild(foreMainHpa)
     foreWeatherMainInfoContainer.appendChild(foreWeatherMainInfo)
   }
+  currentWeatherDOM.appendChild(curWeatherTitle)
+  currentWeatherDOM.appendChild(curWeatherImg)
+  currentWeatherDOM.appendChild(curWeatherTemp)
+  currentWeatherDOM.appendChild(curWeatherDescrip)
+  currentWeatherDOM.appendChild(curWeatherTime)
+  currentWeatherDOM.appendChild(curWeatherTable)
+  foreWeatherHourlyDOM.appendChild(foreWeatherTable)
+  foreWeatherMainDOM.appendChild(foreWeatherMainChartContainer)
+  foreWeatherMainDOM.appendChild(foreWeatherMainInfoContainer)
 }
 
-currentWeatherDOM.appendChild(curWeatherTitle)
-currentWeatherDOM.appendChild(curWeatherImg)
-currentWeatherDOM.appendChild(curWeatherTemp)
-currentWeatherDOM.appendChild(curWeatherDescrip)
-currentWeatherDOM.appendChild(curWeatherTime)
-currentWeatherDOM.appendChild(curWeatherTable)
-foreWeatherHourlyDOM.appendChild(forWeatherTable)
-foreWeatherMainDOM.appendChild(foreWeatherMainChartContainer)
-foreWeatherMainDOM.appendChild(foreWeatherMainInfoContainer)
+// currentWeatherDOM.appendChild(curWeatherTitle)
+// currentWeatherDOM.appendChild(curWeatherImg)
+// currentWeatherDOM.appendChild(curWeatherTemp)
+// currentWeatherDOM.appendChild(curWeatherDescrip)
+// currentWeatherDOM.appendChild(curWeatherTime)
+// currentWeatherDOM.appendChild(curWeatherTable)
+// foreWeatherHourlyDOM.appendChild(foreWeatherTable)
+// foreWeatherMainDOM.appendChild(foreWeatherMainChartContainer)
+// foreWeatherMainDOM.appendChild(foreWeatherMainInfoContainer)
 
 foreWeatherDOM.appendChild(foreWeatherTitle)
 foreWeatherDOM.appendChild(foreTagList)
@@ -327,25 +341,25 @@ foreWeatherDOM.appendChild(foreWeatherHourlyDOM)
 foreWeatherDOM.appendChild(foreWeatherMainDOM)
 
 function buildMainChart () {
-  Highcharts.chart('container', chartObjectData)
+  Highcharts.chart('container', chartObjectData) // eslint-disable-line
 }
 
 function getCityName () {
   let inputCityName = inputCityNameDOM.value
   if (inputCityName === inputCityName.toLocaleLowerCase()) {
-    inputCityName = inputCityName.substr(0,1).toLocaleUpperCase() + inputCityName.substr(1)
+    inputCityName = inputCityName.substr(0, 1).toLocaleUpperCase() + inputCityName.substr(1)
   }
   getWeatherData(inputCityName)
 }
 
 function showTempSwitchBtn () {
   const switchBtn = document.querySelector('.switch-temp-btn')
-   if (switchBtn.style.display === "none") {
-     switchBtn.style.display = "block"
-   }
+  if (switchBtn.style.display === 'none') {
+    switchBtn.style.display = 'block'
+  }
 }
 
-function tempSwitch() {
+function tempSwitch () {
   const foreTempList = document.querySelectorAll('.forecast-temp')
   const foreMainTempList = document.querySelectorAll('.fore-main-temp')
 
@@ -361,7 +375,7 @@ function tempSwitch() {
     }
     for (let i = 0; i < 10; i++) {
       chartObjectData.series[1].data.push(parseFloat((forecastWeatherAPIData.list[i].main.temp * 9 / 5 - 459.67).toFixed(1), 10))
-      foreMainTempList[i].textContent = parseFloat((forecastWeatherAPIData.list[i].main.temp  * 9 / 5 - 459.67).toFixed(1), 10) + ' °F'
+      foreMainTempList[i].textContent = parseFloat((forecastWeatherAPIData.list[i].main.temp * 9 / 5 - 459.67).toFixed(1), 10) + ' °F'
     }
   } else {
     curWeatherTemp.textContent = parseInt(currentWeatherAPIData.main.temp - 273.15, 10) + '°C'
@@ -378,13 +392,38 @@ function tempSwitch() {
       foreMainTempList[i].textContent = parseFloat((forecastWeatherAPIData.list[i].main.temp - 273.15).toFixed(1), 10) + ' °C'
     }
   }
-  buildMainChart ()
+  buildMainChart()
+}
+
+function removeElement () {
+  while (currentWeatherDOM.firstChild) {
+    currentWeatherDOM.removeChild(currentWeatherDOM.firstChild)
+  }
+  while (curWeatherTable.firstChild) {
+    curWeatherTable.removeChild(curWeatherTable.firstChild)
+  }
+  while (foreWeatherHourlyDOM.firstChild) {
+    foreWeatherHourlyDOM.removeChild(foreWeatherHourlyDOM.firstChild)
+  }
+  while (foreWeatherTable.firstChild) {
+    foreWeatherTable.removeChild(foreWeatherTable.firstChild)
+  }
+  while (foreWeatherMainDOM.firstChild) {
+    foreWeatherMainDOM.removeChild(foreWeatherMainDOM.firstChild)
+  }
+  while (foreWeatherMainInfoContainer.firstChild) {
+    foreWeatherMainInfoContainer.removeChild(foreWeatherMainInfoContainer.firstChild)
+  }
+  while (foreTagList.firstChild) {
+    foreTagList.removeChild(foreTagList.firstChild)
+  }
 }
 
 function onload () {
   searchCityBtnDOM.addEventListener('click', getCityName)
   searchCityBtnDOM.addEventListener('click', showTempSwitchBtn)
+  const tempCheckBox = document.querySelector('.temp-check-box')
+  tempCheckBox.addEventListener('click', tempSwitch)
 }
 
 window.addEventListener('load', onload)
-
