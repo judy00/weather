@@ -4,12 +4,12 @@ let chartObjectData = {}
 
 function getWeatherData (inputCityName) {
   function getCurrentWeatherAPIData () {
-    const url = 'http://api.openweathermap.org/data/2.5/weather?q=' + inputCityName + '&APPID=9c8dadba0d86fe1e366e1e7781cdfc59'
+    const url = 'https://api.openweathermap.org/data/2.5/weather?q=' + inputCityName + '&APPID=9c8dadba0d86fe1e366e1e7781cdfc59'
     return axios.get(url) // eslint-disable-line
   }
 
   function getforecastWeatherAPIData () {
-    const url = 'http://api.openweathermap.org/data/2.5/forecast?q=' + inputCityName + '&APPID=9c8dadba0d86fe1e366e1e7781cdfc59'
+    const url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + inputCityName + '&APPID=9c8dadba0d86fe1e366e1e7781cdfc59'
     return axios.get(url) // eslint-disable-line
   }
 
