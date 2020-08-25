@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "highcharts": "^6.0.4"
+    "highcharts": "^8.2.0"
   }
 }
